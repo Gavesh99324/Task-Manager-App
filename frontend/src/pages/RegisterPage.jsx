@@ -182,7 +182,7 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center text-slate-500 text-xs mt-6">
-          TaskFlow &copy; 2025 — TaskFlow
+          TaskFlow &copy; 2025 - TaskFlow
         </p>
       </div>
     </div>
