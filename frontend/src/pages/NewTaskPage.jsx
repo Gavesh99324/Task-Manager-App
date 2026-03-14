@@ -7,7 +7,6 @@ export default function NewTaskPage() {
 
   return (
     <div className="max-w-2xl animate-fade-in">
-      {/* Back link */}
       <button onClick={() => navigate(-1)} className="btn-ghost mb-5 -ml-2">
         <ArrowBackIcon fontSize="small" />
         Back

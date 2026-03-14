@@ -62,14 +62,12 @@ export default function TaskCard({ task, onDeleted }) {
         className="card card-hover cursor-pointer p-4 sm:p-5 animate-slide-up group relative"
         onClick={() => navigate(`/tasks/${task.id}`)}
       >
-        {/* Priority indicator strip */}
         <div
           className="absolute top-0 left-0 w-1 h-full rounded-l-xl"
           style={{ backgroundColor: priorityCfg.color }}
         />
 
         <div className="pl-3">
-          {/* Header row */}
           <div className="flex items-start justify-between gap-3 mb-3">
             <div className="flex-1 min-w-0">
               <h3
@@ -80,7 +78,6 @@ export default function TaskCard({ task, onDeleted }) {
                 {task.title}
               </h3>
             </div>
-            {/* Action buttons - visible on hover */}
             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity shrink-0">
               {task.status !== "DONE" && (
                 <button
@@ -115,14 +112,12 @@ export default function TaskCard({ task, onDeleted }) {
             </div>
           </div>
 
-          {/* Description */}
           {task.description && (
             <p className="text-xs text-slate-500 mb-3 line-clamp-2 leading-relaxed">
               {task.description}
             </p>
           )}
 
-          {/* Badges row */}
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <span className={statusCfg.badgeClass}>
               <span
@@ -136,7 +131,6 @@ export default function TaskCard({ task, onDeleted }) {
             </span>
           </div>
 
-          {/* Footer row */}
           <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500">
             {formattedDate && (
               <span

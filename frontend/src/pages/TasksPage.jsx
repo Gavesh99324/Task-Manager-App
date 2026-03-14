@@ -74,7 +74,6 @@ export default function TasksPage() {
 
   return (
     <div className="space-y-5">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">My Tasks</h1>
@@ -90,7 +89,6 @@ export default function TasksPage() {
         </Link>
       </div>
 
-      {/* Filters */}
       <TaskFilters filters={filters} />
 
       {activeFilterCount > 0 && (
@@ -118,7 +116,6 @@ export default function TasksPage() {
 
       {error && <ErrorAlert message={error} />}
 
-      {/* Task grid */}
       {loading ? (
         <PageLoader />
       ) : items.length === 0 ? (
@@ -152,7 +149,6 @@ export default function TasksPage() {
             ))}
           </div>
 
-          {/* Pagination */}
           {pagination.totalPages > 1 && (
             <div className="flex items-center justify-between pt-2">
               <p className="text-sm text-slate-500">
@@ -166,7 +162,6 @@ export default function TasksPage() {
                 >
                   <NavigateBeforeIcon fontSize="small" /> Prev
                 </button>
-                {/* Page number buttons */}
                 <div className="hidden sm:flex gap-1">
                   {Array.from(
                     { length: Math.min(pagination.totalPages, 5) },
