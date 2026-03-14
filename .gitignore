@@ -1,0 +1,21 @@
+# ─── Backend ───────────────────────────────────────────────
+backend/target/
+backend/.mvn/repository/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.DS_Store
+
+# ─── Frontend ──────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.production
+
+# ─── OS ────────────────────────────────────────────────────
+Thumbs.db
