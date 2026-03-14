@@ -89,8 +89,8 @@ Task Manager App/
 ### 1. Clone & enter the repository
 
 ```bash
-git clone <repo-url>
-cd "Task Manager App"
+git clone https://github.com/Gavesh99324/Task-Manager-App.git
+cd "Task-Manager-App"
 ```
 
 ### 2. Set up MongoDB Atlas
