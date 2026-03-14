@@ -5,6 +5,9 @@ backend/.mvn/repository/
 *.jar
 *.war
 
+# Local secrets — never commit
+**/application-local.properties
+
 # IDE
 .idea/
 *.iml

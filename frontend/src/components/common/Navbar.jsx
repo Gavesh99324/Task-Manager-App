@@ -19,7 +19,6 @@ export default function Navbar({ onMenuClick }) {
 
   return (
     <header className="sticky top-0 z-10 bg-white/80 backdrop-blur-sm border-b border-slate-200 px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
-      {/* Mobile menu button */}
       <button
         onClick={onMenuClick}
         className="lg:hidden p-2 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors"
@@ -28,7 +27,6 @@ export default function Navbar({ onMenuClick }) {
         <MenuIcon fontSize="small" />
       </button>
 
-      {/* Logo visible on mobile */}
       <div className="lg:hidden flex items-center gap-2">
         <div className="w-7 h-7 bg-primary-600 rounded-lg flex items-center justify-center">
           <svg
@@ -50,9 +48,7 @@ export default function Navbar({ onMenuClick }) {
 
       <div className="flex-1 hidden lg:block" />
 
-      {/* Right side */}
       <div className="flex items-center gap-3">
-        {/* User info */}
         <div className="hidden sm:flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-primary-100 text-primary-700 font-semibold text-xs flex items-center justify-center">
             {getInitials(user?.name)}

@@ -40,7 +40,6 @@ export default function TaskFilters({ filters }) {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-3">
-        {/* Search */}
         <div className="relative sm:col-span-2">
           <SearchIcon
             fontSize="small"
@@ -55,7 +54,6 @@ export default function TaskFilters({ filters }) {
           />
         </div>
 
-        {/* Status */}
         <select
           value={filters.status}
           onChange={(e) => handleChange("status", e.target.value)}
@@ -68,7 +66,6 @@ export default function TaskFilters({ filters }) {
           ))}
         </select>
 
-        {/* Priority */}
         <select
           value={filters.priority}
           onChange={(e) => handleChange("priority", e.target.value)}
@@ -81,7 +78,6 @@ export default function TaskFilters({ filters }) {
           ))}
         </select>
 
-        {/* Sort */}
         <div className="flex gap-2">
           <select
             value={filters.sortBy}
@@ -109,7 +105,6 @@ export default function TaskFilters({ filters }) {
         </div>
       </div>
 
-      {/* Assignee email filter */}
       <div className="mt-3">
         <input
           type="email"

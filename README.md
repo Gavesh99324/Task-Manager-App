@@ -107,22 +107,36 @@ cd "Task-Manager-App"
 
 ### 3. Configure backend environment
 
-Edit `backend/src/main/resources/application.properties` **or** set environment variables:
+Create a local properties file from the provided example:
 
-| Variable               | Default                                      | Description                    |
-| ---------------------- | -------------------------------------------- | ------------------------------ |
-| `MONGODB_URI`          | *(your Atlas connection string)*             | Full MongoDB connection URI    |
-| `MONGODB_DB`           | `taskmanager`                                | Database name                  |
-| `JWT_SECRET`           | (long default string)                        | HS256 signing secret           |
-| `JWT_EXPIRATION_MS`    | `86400000` (24 h)                            | Token TTL in milliseconds      |
-| `CORS_ALLOWED_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Allowed frontend origins       |
+```bash
+cp backend/src/main/resources/application-local.properties.example \
+   backend/src/main/resources/application-local.properties
+```
+
+Then open `application-local.properties` and fill in your values:
+
+```properties
+spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/taskmanager?retryWrites=true&w=majority
+app.jwt.secret=<any-long-random-string>
+```
+
+> **Environment variable alternative:** You can skip the file and instead export `MONGODB_URI` and `JWT_SECRET` in your terminal before running the backend.
+
+| Variable               | Description                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `MONGODB_URI`          | Full MongoDB Atlas connection string (required)       |
+| `MONGODB_DB`           | Database name — default `taskmanager`                 |
+| `JWT_SECRET`           | HS256 signing secret (min 32 chars)                   |
+| `JWT_EXPIRATION_MS`    | Token TTL in milliseconds — default `86400000` (24 h) |
+| `CORS_ALLOWED_ORIGINS` | Allowed origins — default `http://localhost:5173`     |
 
 ### 4. Build & start the backend
 
 ```bash
 cd backend
 mvn clean package -DskipTests
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=local
 ```
 
 The API will be available at **http://localhost:8080/api**
