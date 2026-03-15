@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 public class TaskRepositoryImpl implements TaskRepositoryCustom {
@@ -78,10 +79,11 @@ public class TaskRepositoryImpl implements TaskRepositoryCustom {
             conditions.add(Criteria.where("priority").is(priority.name()));
         }
         if (StringUtils.hasText(assigneeEmail)) {
-            conditions.add(Criteria.where("assignee_email").regex("^" + assigneeEmail + "$", "i"));
+            conditions.add(Criteria.where("assignee_email")
+                    .regex("^" + Pattern.quote(assigneeEmail) + "$", "i"));
         }
         if (StringUtils.hasText(search)) {
-            conditions.add(Criteria.where("title").regex(search, "i"));
+            conditions.add(Criteria.where("title").regex(Pattern.quote(search), "i"));
         }
 
         return new Criteria().andOperator(conditions.toArray(new Criteria[0]));

@@ -28,7 +28,7 @@ export default function Sidebar({ isOpen, onClose }) {
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-primary-600 rounded-xl flex items-center justify-center shadow-sm">
             <svg
-              className="w-4.5 h-4.5 text-white w-5 h-5"
+              className="w-5 h-5 text-white"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

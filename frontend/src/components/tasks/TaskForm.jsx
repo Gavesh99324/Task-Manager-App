@@ -2,21 +2,12 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createTask, updateTask } from "../../features/tasks/tasksSlice";
+import { STATUS_OPTIONS, PRIORITY_OPTIONS, EMAIL_REGEX } from "../../utils/helpers";
 import ErrorAlert from "../common/ErrorAlert";
 import LoadingSpinner from "../common/LoadingSpinner";
 import toast from "react-hot-toast";
 
-const STATUS_OPTIONS = [
-  { value: "TODO", label: "To Do" },
-  { value: "IN_PROGRESS", label: "In Progress" },
-  { value: "DONE", label: "Done" },
-];
-
-const PRIORITY_OPTIONS = [
-  { value: "LOW", label: "Low" },
-  { value: "MEDIUM", label: "Medium" },
-  { value: "HIGH", label: "High" },
-];
+const MAX_TITLE_LENGTH = 255;
 
 const DEFAULT_FORM = {
   title: "",
@@ -55,12 +46,9 @@ export default function TaskForm({ task = null, onSuccess }) {
   const validate = () => {
     const newErrors = {};
     if (!form.title.trim()) newErrors.title = "Title is required";
-    else if (form.title.length > 255)
-      newErrors.title = "Title must not exceed 255 characters";
-    if (
-      form.assigneeEmail &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.assigneeEmail)
-    ) {
+    else if (form.title.length > MAX_TITLE_LENGTH)
+      newErrors.title = `Title must not exceed ${MAX_TITLE_LENGTH} characters`;
+    if (form.assigneeEmail && !EMAIL_REGEX.test(form.assigneeEmail)) {
       newErrors.assigneeEmail = "Please enter a valid email address";
     }
     setErrors(newErrors);
@@ -110,7 +98,6 @@ export default function TaskForm({ task = null, onSuccess }) {
         />
       )}
 
-      {/* Title */}
       <div>
         <label className="input-label" htmlFor="title">
           Title <span className="text-red-500">*</span>
@@ -123,14 +110,13 @@ export default function TaskForm({ task = null, onSuccess }) {
           onChange={handleChange}
           placeholder="Enter task title…"
           className={`input-field ${errors.title ? "border-red-300 focus:ring-red-400" : ""}`}
-          maxLength={255}
+          maxLength={MAX_TITLE_LENGTH}
         />
         {errors.title && (
           <p className="mt-1 text-xs text-red-600">{errors.title}</p>
         )}
       </div>
 
-      {/* Description */}
       <div>
         <label className="input-label" htmlFor="description">
           Description
@@ -146,7 +132,6 @@ export default function TaskForm({ task = null, onSuccess }) {
         />
       </div>
 
-      {/* Status & Priority */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="input-label" htmlFor="status">
@@ -186,7 +171,6 @@ export default function TaskForm({ task = null, onSuccess }) {
         </div>
       </div>
 
-      {/* Due Date */}
       <div>
         <label className="input-label" htmlFor="dueDate">
           Due Date
@@ -201,7 +185,6 @@ export default function TaskForm({ task = null, onSuccess }) {
         />
       </div>
 
-      {/* Assignee */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <label className="input-label" htmlFor="assigneeName">
@@ -236,7 +219,6 @@ export default function TaskForm({ task = null, onSuccess }) {
         </div>
       </div>
 
-      {/* Actions */}
       <div className="flex flex-col sm:flex-row gap-3 pt-2">
         <button
           type="submit"

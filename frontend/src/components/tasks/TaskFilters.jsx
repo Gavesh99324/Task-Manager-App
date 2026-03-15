@@ -1,21 +1,8 @@
 import { useDispatch } from "react-redux";
 import { setFilters } from "../../features/tasks/tasksSlice";
+import { STATUS_OPTIONS, PRIORITY_OPTIONS } from "../../utils/helpers";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
-
-const STATUS_OPTIONS = [
-  { value: "", label: "All Statuses" },
-  { value: "TODO", label: "To Do" },
-  { value: "IN_PROGRESS", label: "In Progress" },
-  { value: "DONE", label: "Done" },
-];
-
-const PRIORITY_OPTIONS = [
-  { value: "", label: "All Priorities" },
-  { value: "LOW", label: "Low" },
-  { value: "MEDIUM", label: "Medium" },
-  { value: "HIGH", label: "High" },
-];
 
 const SORT_OPTIONS = [
   { value: "createdAt", label: "Created Date" },
@@ -59,6 +46,7 @@ export default function TaskFilters({ filters }) {
           onChange={(e) => handleChange("status", e.target.value)}
           className="input-field"
         >
+          <option value="">All Statuses</option>
           {STATUS_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}
@@ -71,6 +59,7 @@ export default function TaskFilters({ filters }) {
           onChange={(e) => handleChange("priority", e.target.value)}
           className="input-field"
         >
+          <option value="">All Priorities</option>
           {PRIORITY_OPTIONS.map((opt) => (
             <option key={opt.value} value={opt.value}>
               {opt.label}

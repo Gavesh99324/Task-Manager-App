@@ -7,6 +7,7 @@ import LoadingSpinner from "../components/common/LoadingSpinner";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import toast from "react-hot-toast";
+import { EMAIL_REGEX } from "../utils/helpers";
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export default function RegisterPage() {
     const errs = {};
     if (!form.name.trim()) errs.name = "Name is required";
     if (!form.email.trim()) errs.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+    else if (!EMAIL_REGEX.test(form.email))
       errs.email = "Enter a valid email";
     if (!form.password) errs.password = "Password is required";
     else if (form.password.length < 6)
@@ -47,7 +48,6 @@ export default function RegisterPage() {
       toast.success("Account created! Welcome to TaskFlow.");
       navigate("/dashboard");
     } catch {
-      // error displayed from Redux state
     }
   };
 
@@ -55,7 +55,6 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md animate-fade-in">
         <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
-          {/* Logo */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-14 h-14 bg-primary-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <svg
@@ -182,7 +181,7 @@ export default function RegisterPage() {
         </div>
 
         <p className="text-center text-slate-500 text-xs mt-6">
-          TaskFlow &copy; 2025 - TaskFlow
+          TaskFlow &copy; {new Date().getFullYear()}
         </p>
       </div>
     </div>

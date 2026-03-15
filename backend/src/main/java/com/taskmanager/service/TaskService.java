@@ -9,24 +9,26 @@ import com.taskmanager.exception.ResourceNotFoundException;
 import com.taskmanager.model.Task;
 import com.taskmanager.model.User;
 import com.taskmanager.repository.TaskRepository;
-import com.taskmanager.repository.UserRepository;
+import com.taskmanager.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
 
     private final TaskRepository taskRepository;
-    private final UserRepository userRepository;
+    private final SecurityUtils securityUtils;
+
+    @Value("${app.pagination.max-page-size}")
+    private int maxPageSize;
 
     public PageResponse<TaskResponse> getTasks(
             TaskStatus status,
@@ -38,8 +40,8 @@ public class TaskService {
             int page,
             int size
     ) {
-        User currentUser = getCurrentUser();
-        Pageable pageable = PageRequest.of(page, Math.min(size, 100));
+        User currentUser = securityUtils.getCurrentUser();
+        Pageable pageable = PageRequest.of(page, Math.min(size, maxPageSize));
 
         String resolvedSortBy = (sortBy != null) ? sortBy : "createdAt";
         String resolvedSortDir = (sortDir != null) ? sortDir.toLowerCase() : "desc";
@@ -51,7 +53,7 @@ public class TaskService {
 
         List<TaskResponse> responses = taskPage.getContent().stream()
                 .map(TaskResponse::fromEntity)
-                .collect(Collectors.toList());
+                .toList();
 
         return PageResponse.of(
                 responses,
@@ -68,14 +70,14 @@ public class TaskService {
     }
 
     public TaskResponse createTask(TaskRequest request) {
-        User currentUser = getCurrentUser();
+        User currentUser = securityUtils.getCurrentUser();
 
         Task task = Task.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .status(request.getStatus())
                 .priority(request.getPriority())
-                .priorityOrder(priorityOrder(request.getPriority()))
+                .priorityOrder(request.getPriority().getSortOrder())
                 .dueDate(request.getDueDate())
                 .assigneeEmail(request.getAssigneeEmail())
                 .assigneeName(request.getAssigneeName())
@@ -98,7 +100,7 @@ public class TaskService {
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setPriority(request.getPriority());
-        task.setPriorityOrder(priorityOrder(request.getPriority()));
+        task.setPriorityOrder(request.getPriority().getSortOrder());
         task.setDueDate(request.getDueDate());
         task.setAssigneeEmail(request.getAssigneeEmail());
         task.setAssigneeName(request.getAssigneeName());
@@ -132,28 +134,15 @@ public class TaskService {
     }
 
     private Task findTaskByIdAndOwner(String id) {
-        User currentUser = getCurrentUser();
+        User currentUser = securityUtils.getCurrentUser();
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Task", "id", id));
 
         if (!task.getCreatedById().equals(currentUser.getId())) {
+            // 404 intentional: avoids revealing existence of tasks belonging to other users
             throw new ResourceNotFoundException("Task", "id", id);
         }
 
         return task;
-    }
-
-    private User getCurrentUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
-    }
-
-    private int priorityOrder(TaskPriority priority) {
-        return switch (priority) {
-            case LOW    -> 1;
-            case MEDIUM -> 2;
-            case HIGH   -> 3;
-        };
     }
 }

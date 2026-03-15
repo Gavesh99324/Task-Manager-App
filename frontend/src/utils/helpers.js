@@ -45,6 +45,16 @@ export const PRIORITY_CONFIG = {
   },
 };
 
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const STATUS_OPTIONS = Object.entries(STATUS_CONFIG).map(
+  ([value, { label }]) => ({ value, label }),
+);
+
+export const PRIORITY_OPTIONS = Object.entries(PRIORITY_CONFIG).map(
+  ([value, { label }]) => ({ value, label }),
+);
+
 export const formatDate = (dateStr) => {
   if (!dateStr) return null;
   try {

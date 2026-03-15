@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { authApi } from "../../services/api";
+import { authApi, STORAGE_KEYS } from "../../services/api";
 
 const storedUser = (() => {
   try {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem(STORAGE_KEYS.USER));
   } catch {
     return null;
   }
@@ -39,8 +39,8 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: storedUser,
-    token: localStorage.getItem("token"),
-    isAuthenticated: !!localStorage.getItem("token"),
+    token: localStorage.getItem(STORAGE_KEYS.TOKEN),
+    isAuthenticated: !!localStorage.getItem(STORAGE_KEYS.TOKEN),
     loading: false,
     error: null,
   },
@@ -50,8 +50,8 @@ const authSlice = createSlice({
       state.token = null;
       state.isAuthenticated = false;
       state.error = null;
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.removeItem(STORAGE_KEYS.TOKEN);
+      localStorage.removeItem(STORAGE_KEYS.USER);
     },
     clearError(state) {
       state.error = null;
@@ -71,8 +71,8 @@ const authSlice = createSlice({
         name: action.payload.name,
         email: action.payload.email,
       };
-      localStorage.setItem("token", action.payload.token);
-      localStorage.setItem("user", JSON.stringify(state.user));
+      localStorage.setItem(STORAGE_KEYS.TOKEN, action.payload.token);
+      localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(state.user));
     };
     const handleRejected = (state, action) => {
       state.loading = false;

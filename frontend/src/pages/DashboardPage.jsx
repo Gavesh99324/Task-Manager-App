@@ -24,13 +24,7 @@ import AutorenewIcon from "@mui/icons-material/Autorenew";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import TodayIcon from "@mui/icons-material/Today";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-
-const STATUS_COLORS = {
-  TODO: "#94a3b8",
-  IN_PROGRESS: "#3b82f6",
-  DONE: "#10b981",
-};
-const PRIORITY_COLORS = { LOW: "#94a3b8", MEDIUM: "#f59e0b", HIGH: "#ef4444" };
+import { STATUS_CONFIG, PRIORITY_CONFIG } from "../utils/helpers";
 
 function StatCard({ icon: Icon, label, value, color, bgColor, subtext }) {
   return (
@@ -83,13 +77,13 @@ export default function DashboardPage() {
 
   const statusData = dashboard
     ? [
-        { name: "To Do", value: dashboard.todoCount, fill: STATUS_COLORS.TODO },
+        { name: "To Do", value: dashboard.todoCount, fill: STATUS_CONFIG.TODO.color },
         {
           name: "In Progress",
           value: dashboard.inProgressCount,
-          fill: STATUS_COLORS.IN_PROGRESS,
+          fill: STATUS_CONFIG.IN_PROGRESS.color,
         },
-        { name: "Done", value: dashboard.doneCount, fill: STATUS_COLORS.DONE },
+        { name: "Done", value: dashboard.doneCount, fill: STATUS_CONFIG.DONE.color },
       ]
     : [];
 
@@ -98,17 +92,17 @@ export default function DashboardPage() {
         {
           name: "Low",
           value: dashboard.lowPriorityCount,
-          fill: PRIORITY_COLORS.LOW,
+          fill: PRIORITY_CONFIG.LOW.color,
         },
         {
           name: "Medium",
           value: dashboard.mediumPriorityCount,
-          fill: PRIORITY_COLORS.MEDIUM,
+          fill: PRIORITY_CONFIG.MEDIUM.color,
         },
         {
           name: "High",
           value: dashboard.highPriorityCount,
-          fill: PRIORITY_COLORS.HIGH,
+          fill: PRIORITY_CONFIG.HIGH.color,
         },
       ]
     : [];
@@ -119,7 +113,6 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      {/* Page header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">
@@ -137,7 +130,6 @@ export default function DashboardPage() {
 
       {error && <ErrorAlert message={error} />}
 
-      {/* Stat cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
         <StatCard
           icon={AssignmentIcon}
@@ -184,9 +176,7 @@ export default function DashboardPage() {
         />
       </div>
 
-      {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Status bar chart */}
         <div className="card p-5">
           <h2 className="text-base font-semibold text-slate-900 mb-4">
             Tasks by Status
@@ -223,8 +213,8 @@ export default function DashboardPage() {
                 />
                 <Tooltip content={<CustomTooltip />} />
                 <Bar dataKey="value" name="Count" radius={[6, 6, 0, 0]}>
-                  {statusData.map((entry, index) => (
-                    <Cell key={index} fill={entry.fill} />
+                  {statusData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.fill} />
                   ))}
                 </Bar>
               </BarChart>
@@ -232,7 +222,6 @@ export default function DashboardPage() {
           )}
         </div>
 
-        {/* Priority pie chart */}
         <div className="card p-5">
           <h2 className="text-base font-semibold text-slate-900 mb-4">
             Tasks by Priority
@@ -259,8 +248,8 @@ export default function DashboardPage() {
                   paddingAngle={3}
                   dataKey="value"
                 >
-                  {priorityData.map((entry, index) => (
-                    <Cell key={index} fill={entry.fill} />
+                  {priorityData.map((entry) => (
+                    <Cell key={entry.name} fill={entry.fill} />
                   ))}
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
@@ -277,7 +266,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Quick actions */}
       <div className="card p-5">
         <h2 className="text-base font-semibold text-slate-900 mb-4">
           Quick Actions

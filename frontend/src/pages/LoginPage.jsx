@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../features/auth/authSlice";
-import { clearError } from "../features/auth/authSlice";
+import { loginUser, clearError } from "../features/auth/authSlice";
 import ErrorAlert from "../components/common/ErrorAlert";
 import LoadingSpinner from "../components/common/LoadingSpinner";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -31,16 +30,13 @@ export default function LoginPage() {
       toast.success("Welcome back!");
       navigate("/dashboard");
     } catch {
-      // error displayed from Redux state
     }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-primary-950 to-slate-900 flex items-center justify-center p-4">
       <div className="w-full max-w-md animate-fade-in">
-        {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 sm:p-10">
-          {/* Logo */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-14 h-14 bg-primary-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg">
               <svg
@@ -140,7 +136,7 @@ export default function LoginPage() {
         </div>
 
         <p className="text-center text-slate-500 text-xs mt-6">
-          TaskFlow &copy; 2025 - TaskFlow
+          TaskFlow &copy; {new Date().getFullYear()}
         </p>
       </div>
     </div>

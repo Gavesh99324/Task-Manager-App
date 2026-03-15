@@ -52,12 +52,7 @@ export default function TasksPage() {
 
   useEffect(() => {
     clearTimeout(searchTimerRef.current);
-    // Debounce search field; fire immediately for other filter changes
-    if (filters.search !== undefined) {
-      searchTimerRef.current = setTimeout(() => loadTasks(0), DEBOUNCE_DELAY);
-    } else {
-      loadTasks(0);
-    }
+    searchTimerRef.current = setTimeout(() => loadTasks(0), DEBOUNCE_DELAY);
     return () => clearTimeout(searchTimerRef.current);
   }, [filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
