@@ -135,8 +135,7 @@ app.jwt.secret=<any-long-random-string>
 
 ```bash
 cd backend
-mvn clean package -DskipTests
-mvn spring-boot:run -Dspring-boot.run.profiles=local
+mvn spring-boot:run
 ```
 
 The API will be available at **http://localhost:8080/api**
